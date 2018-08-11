@@ -1,3 +1,4 @@
+#pragma once
 
 #include<cstdio>
 #include<string>
@@ -31,6 +32,41 @@ struct pixel {
 
 	unsigned char c[3];//0B  1G  2R
 };
+
+
+struct Color {
+	Color() {}
+	Color(double _r, double _g, double _b) {
+		r = _r;
+		g = _g;
+		b = _b;
+	}
+	pixel GPixel() {
+		return pixel(r, g, b);
+	}
+	Color operator*(double k) {
+		return Color(r*k, g*k, b*k);
+	}
+
+	void operator*=(double k) {
+		g *= k;
+		r *= k;
+		b *= k;
+	}
+
+	Color operator+(Color k) {
+		return Color(r + k.r, g + k.g, b + k.b);
+	}
+
+	void operator+=(Color k) {
+		g += k.g;
+		r += k.r;
+		b += k.b;
+	}
+
+	double g, r, b;
+};
+
 class mypic {
 public:
 	mypic(int height, int length) {
@@ -91,8 +127,7 @@ void picout(mypic &p, FILE *fp, string path = "out") {
 	fprintf_s(fp, "P6\n%d %d\n255\n", p.GLen(), p.GHei());
 	static unsigned char color[3];
 	for (int j = p.GHei() - 1; j >= 0; j--)
-		for (int i = 0; i<p.GLen(); i++)
-		{
+		for (int i = 0; i<p.GLen(); i++){
 
 			color[0] = p.RD(j, i) & 255;
 			color[1] = p.GR(j, i) & 255;
