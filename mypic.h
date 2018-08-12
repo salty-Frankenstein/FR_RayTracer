@@ -11,28 +11,20 @@ struct pixel {
 		c[1] = g * 255;
 		c[2] = r * 255;
 	}
-	pixel operator*(double k) {
-		pixel t;
-		if (c[0] * k > 255 || c[1] * k > 255 || c[2] * k > 255) { printf("* out\n"); system("pause"); }
-		t.c[0] = c[0] * k;
-		t.c[1] = c[1] * k;
-		t.c[2] = c[2] * k;
+	pixel operator*(double k);
 
-		return t;
-	}
-
-	pixel operator+(pixel k) {
-		pixel t;
-		t.c[0] = c[0] + k.c[0];
-		t.c[1] = c[1] + k.c[1];
-		t.c[2] = c[2] + k.c[2];
-
-		return t;
-	}
+	pixel operator+(pixel k);
 
 	unsigned char c[3];//0B  1G  2R
 };
 
+inline pixel pixel::operator*(double k) {
+	return pixel(c[0] * k, c[1] * k, c[2] * k);
+}
+
+inline pixel pixel::operator+(pixel k) {
+	return pixel(c[0] + k.c[0], c[1] + k.c[1], c[2] + k.c[2]);
+}
 
 struct Color {
 	Color() {}
@@ -41,31 +33,41 @@ struct Color {
 		g = _g;
 		b = _b;
 	}
-	pixel GPixel() {
-		return pixel(r, g, b);
-	}
-	Color operator*(double k) {
-		return Color(r*k, g*k, b*k);
-	}
+	pixel GPixel();
 
-	void operator*=(double k) {
-		g *= k;
-		r *= k;
-		b *= k;
-	}
+	Color operator*(double k);
+	void operator*=(double k);
 
-	Color operator+(Color k) {
-		return Color(r + k.r, g + k.g, b + k.b);
-	}
+	Color operator+(Color k);
 
-	void operator+=(Color k) {
-		g += k.g;
-		r += k.r;
-		b += k.b;
-	}
+	void operator+=(Color k);;
 
 	double g, r, b;
 };
+
+inline pixel Color::GPixel() {
+	return pixel(r, g, b);
+}
+
+inline Color Color::operator*(double k) {
+	return Color(r*k, g*k, b*k);
+}
+
+inline void Color::operator*=(double k) {
+	g *= k;
+	r *= k;
+	b *= k;
+}
+
+inline Color Color::operator+(Color k) {
+	return Color(r + k.r, g + k.g, b + k.b);
+}
+
+inline void Color::operator+=(Color k) {
+	g += k.g;
+	r += k.r;
+	b += k.b;
+}
 
 class mypic {
 public:
@@ -95,7 +97,6 @@ private:
 inline int mypic::GHei() {
 	return hei;
 }
-
 
 inline int mypic::GLen() {
 	return len;

@@ -7,7 +7,10 @@ public:
 		direction = d;
 		normalDirection = d.Normalize();
 	}
-	Vector3 GetPoint(double t) {
-		return original + direction * t;
-	}
+	Vector3 GetPoint(double t);
+
 };
+
+Vector3 Ray::GetPoint(double t) {
+	return original + direction * t;
+}
