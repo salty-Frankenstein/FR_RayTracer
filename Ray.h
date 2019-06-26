@@ -1,16 +1,15 @@
 #pragma once
+#include "vector3.h"
+
 class Ray {
 public:
-	Vector3 original, direction, normalDirection;
-	Ray(Vector3 o, Vector3 d) {
-		original = o;
-		direction = d;
-		normalDirection = d.Normalize();
-	}
-	Vector3 GetPoint(double t);
+	Ray(){}
+	Ray(const Vec3& a, const Vec3& b) { A = a; B = b; }
+	Vec3 Origin() const { return A; }
+	Vec3 Direction() const { return B; }
+	Vec3 PointAtParameter(float t) const { return A + t * B; }
 
+private:
+	Vec3 A;
+	Vec3 B;
 };
-
-Vector3 Ray::GetPoint(double t) {
-	return original + direction * t;
-}
